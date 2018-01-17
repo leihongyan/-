@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	.shenshi{
+		color:red;
+		font-size: 30px;
+	}
+</style>
+<body>
+	<div class="shenshi"></div>
+</body>
+<script type="text/javascript">
+	function getRating(rating){
+		if(rating>5 || rating<0) throw new Error('数字不在范围内');
+		var str='★★★★★☆☆☆☆☆'.substring(5-rating,10-rating);
+		document.querySelector(".shenshi").innerHTML=str;
+		// return '★★★★★☆☆☆☆☆'.substring(5-rating,10-rating);
+	}
+	getRating(3)
+
+</script>
+</html>

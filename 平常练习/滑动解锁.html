@@ -1,0 +1,190 @@
+<html>  
+<head>  
+    <title>滑动解锁</title>  
+    <meta charset="UTF-8" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+    body,html,div,p{
+        padding:0;
+        margin:0;
+    }
+    .cont{
+        background:-webkit-linear-gradient(top,#2c3039,#0f1110);
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    p{
+        color:#fff;
+        text-align: center;
+        font-size: 16px;
+        margin:40px;
+    }
+    .cir_box{
+        width: 100%;
+    }
+    .cir_big{
+        border:solid 1px #3a3b40;
+        width:56px;
+        height: 56px;
+        border-radius: 50%;
+        text-align: center;
+        box-sizing:border-box;
+    } 
+    .cir_cent{
+        display: inline-block;
+        width:12px;
+        height: 12px; 
+        background: #abadac;
+        line-height: 55px;
+        border-radius: 50%;
+        margin:22px 0;
+    }  
+    </style>  
+</head>  
+<body>
+    <div class="cont" ontouchstart="t_st(event)" ontouchmove="t_move(event)" ontouchend ="t_end(event)" ontouchcancel ="t_end(event)">
+        <p id="number">顺序：</p>
+        <canvas id="myCanvas">
+            您的浏览器不支持canvas！
+        </canvas>
+        <!-- <div class="cir_box">
+           <div class="cir_big">
+               <div class="cir_cent"></div>
+           </div> 
+        </div> -->
+    </div>
+    
+</body> 
+<script>
+var canvas = document.getElementById('myCanvas');
+if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+}
+var w_win = document.body.clientWidth;
+var canvas_top = canvas.offsetTop;
+canvas.width = w_win ;  
+canvas.height = w_win ;
+var r1 = 28 ;       //大圆半径
+var r2 = 6 ;        //小圆半径
+var pass_box = []; //密码
+var cur_number ;  //当前码
+var margin_cir = ( w_win - r1 * 6 )/ 6 ; //按钮间隔
+
+// 按键圆心
+var point_box = [];
+for(var i=0;i<3;i++){
+    for(var j=0;j<3;j++){
+        var x = ( margin_cir + r1 )*( 2 *  j + 1 ) ;  
+        var y = ( margin_cir + r1 )*( 2 *  i + 1 ) ;
+        var point_one = [ x , y ];
+        point_box.push(point_one)
+    }
+}
+//初始画布
+function init_canvas(){
+    for(var i=0;i<point_box.length;i++){
+        circle_do_normal(i)
+    }
+    if(pass_box.length>0){
+        for(var i=0;i<pass_box.length;i++){
+            if(i>0){
+                ctx.beginPath();
+                ctx.moveTo(point_box[pass_box[i-1]][0],point_box[pass_box[i-1]][1]);
+                ctx.lineTo(point_box[pass_box[i]][0],point_box[pass_box[i]][1]);
+                ctx.lineWidth = 8; 
+                ctx.lineCap = "round"; 
+                ctx.lineJoin = "round";
+                ctx.strokeStyle = '#0e4772'; 
+                ctx.stroke(); 
+            }
+            circle_do_special(pass_box[i]);
+        }
+    }
+    
+}
+init_canvas();
+
+//初始按钮
+function circle_do_normal(n){
+    ctx.beginPath(); 
+    ctx.arc(point_box[n][0],point_box[n][1], r1, 0, Math.PI*2, true); 
+    ctx.lineWidth = 2.0; 
+    ctx.strokeStyle = "#3a3b40"; 
+    ctx.stroke();
+    ctx.beginPath(); 
+    ctx.arc(point_box[n][0],point_box[n][1], r2, 0, Math.PI*2, true); 
+    ctx.fillStyle = "#abadac"; 
+    ctx.fill();
+}
+//高亮按钮
+function circle_do_special(n){
+    ctx.beginPath(); 
+    ctx.arc(point_box[n][0],point_box[n][1], r1, 0, Math.PI*2, true); 
+    ctx.lineWidth = 2.0; 
+    ctx.strokeStyle = "#157bcd"; 
+    ctx.stroke();
+    ctx.beginPath(); 
+    ctx.arc(point_box[n][0],point_box[n][1], r2, 0, Math.PI*2, true); 
+    ctx.fillStyle = "#00a9f5"; 
+    ctx.fill();
+}
+
+//滑入圆
+function inter_c(x,y){
+    for(var i=0;i<point_box.length;i++){
+        var distance1 =  Math.pow(x - point_box[i][0],2) + Math.pow(y - point_box[i][1],2);
+        var distance = Math.pow(distance1,0.5);
+        if (distance <= r1){
+            if(cur_number != i && pass_box.indexOf(i) == -1){
+                circle_do_special(i);
+                cur_number = i;
+                pass_box.push(i);
+                document.getElementById('number').innerHTML += i ;
+                return true;
+            }
+        }
+    }
+}
+//折线
+function line_c(x,y){
+    ctx.beginPath();
+    ctx.lineWidth = 8; 
+    ctx.strokeStyle = '#0e4772';
+    ctx.moveTo(point_box[cur_number][0],point_box[cur_number][1]);
+    ctx.lineTo(x, y); 
+}
+//开始绘制
+var touch,str_x,str_y,end_x,end_y;
+function t_st(e){
+    e.preventDefault(); 
+    touch = e.touches[0]; 
+    str_x = touch.pageX;
+    str_y = touch.pageY - canvas_top;
+    ctx.clearRect(0,0,w_win,w_win);
+    pass_box = [];
+    document.getElementById('number').innerHTML='顺序：'
+    if(inter_c(str_x,str_y)){
+        line_c(str_x,str_y);
+    }
+}
+//滑动绘制
+function t_move(e){
+    e.preventDefault(); 
+    touch = e.touches[0];
+    end_x = touch.pageX;
+    end_y = touch.pageY - canvas_top;
+    inter_c(end_x,end_y)
+    ctx.clearRect(0,0,w_win,w_win);
+    init_canvas();
+    line_c(end_x,end_y);
+    ctx.stroke(); 
+}
+//结束绘制
+function t_end(e){
+    e.preventDefault(); 
+    ctx.clearRect(0,0,w_win,w_win);
+    init_canvas();
+}
+</script> 
+</html>  

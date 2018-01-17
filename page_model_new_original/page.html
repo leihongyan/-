@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="page.css">
+	<script src="page_new.js"></script>
+	<script src="ajax_original.js"></script>
+</head>
+<body>
+<div class="par_box">
+	<div class="nr_box">
+	
+	</div>
+	<div class="pages" style="height:60px;">
+		<div class="pagebox" style="float:left;"></div>
+	</div>
+</div>
+<div class="par_box1">
+	<div class="nr_box1">
+	
+	</div>
+	<div class="pages" style="height:60px;">
+		<div class="pagebox" style="float:left;"></div>
+	</div> 
+</div>
+</body>
+<script>
+	var page=new Page('.par_box',{
+		sum:100,           //总条数
+		url:'',           //ajax地址
+		div_name:'.nr_box'     //ajax替换div名称
+	})
+	var page1=new Page('.par_box1',{
+		sum:50,           //总条数
+		length:12,        //每页显示条数,默认10
+		url:'',           //ajax地址
+		page_shownumber:3,//page_shownumber 显示页码最大个数 默认5
+		div_name:'.nr_box1'      //ajax替换div名称
+	})
+	
+</script>	
+</html>
+

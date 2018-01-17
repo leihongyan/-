@@ -1,0 +1,93 @@
+/*聊天输入框 start*/
+  .dh_bot {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: #f8f8f8;
+        padding: 0 12px;
+        box-sizing: border-box;
+    }
+    .dh_bot .zzc_sx{
+        position: absolute;
+        width: 100%;
+        height: 1000px;
+        margin-top: -1000px;
+        margin-left: -12px;
+    }
+    .dh_edit {
+        width: 100%;
+        height: auto;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        /* vertical-align: bottom; */
+        padding-bottom: 0;
+        align-items: flex-end;
+        -webkit-align-items: flex-end;
+    }
+    .biaoqing {
+        width: 24px;
+        height: 40px;
+        margin-right: 10px;
+        background: url(http://img.51fth.com/m/images/img_wyl/face.png) no-repeat center center;
+        background-size: 22px 22px;
+        margin-bottom: 0;
+    }
+    #fwb_sx {
+		background:#FFF;
+        flex: 1;
+        border: 1px solid #999;
+        margin: 5px 0;
+    	padding:5px 2px;
+        line-height: 1.4rem;
+        max-height: 5.6rem;
+        font-size: 1.4rem;
+        overflow-x: hidden;
+        /* overflow-y: auto; */
+        outline: none;
+        border-radius: 3px;
+        box-sizing: border-box;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+    #fwb_sx img{
+      display: inline;
+      width: 17px;
+      margin-bottom:-4px;
+      /*transform:translateY(3px);*/
+    }
+    .fasong_btn {
+        width: 44px;
+        height: 26px;
+        line-height: 26px;
+        margin-top: 5px;
+        margin-left: 8px;
+        background: #ff1e00;
+        text-align: center;
+        color: #fff;
+        font-size: 1.2rem;
+        margin-bottom: 6px;
+    }
+    .faces_path {
+        display: none;
+        padding: 12px 0;
+        width: 100%;
+    }
+    .faces_path .swiper-container_sx .swiper-slide img {
+        width: 26px;
+    }
+    .swiper-container_sx, .swiper-slide {
+        width: 100%;
+        /* overflow: hidden; */
+        padding-bottom: 10px;
+    }
+    .swiper-pagination_sx {
+        width: 100%;
+        bottom: 5px;
+        left: 0;
+    }
+    .swiper-pagination_sx .swiper-pagination-bullet {
+        margin: 5px;
+    }
+    /*聊天输入框 end*/

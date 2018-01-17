@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>主题评论</title>
+    <link rel="stylesheet" type="text/css" href="http://img.51fth.com/m/css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="http://img.51fth.com/m/css/swiper.min.css" />
+      <!-- <link rel="stylesheet" type="text/css" href="http://img.51fth.com/m/css/layer.css" /> -->
+    <link rel="stylesheet" type="text/css" href="http://img.51fth.com/m/css/dhk_sx.css" />
+      <script src="http://img.51fth.com/m/js/jquery.min.js" type="text/javascript"></script>
+    <!-- <script type="text/javascript" src="http://img.51fth.com/m/js/layer.js"></script> -->
+    <script src="http://img.51fth.com/m/js/swiper.min.js"></script>
+    <script type="text/javascript" src="http://img.51fth.com/m/images/img_sx/dhk/dhk.js"></script>
+    <script src="http://img.51fth.com/m/js/public.js" type="text/javascript"></script>
+    <style>
+        html,body{
+            background-color:#f6f6f6;   
+        }
+        .huifu_box{
+            border-top:1px solid #ececec;
+            border-bottom:1px solid #ececec;
+            margin-bottom:15px;
+        }
+        .text_box{
+            position:relative;
+            width:100%;
+            height:140px;
+            background-color: #fff;
+            overflow:hidden;
+            padding:12px;
+            box-sizing:border-box;
+        }
+        .tanpan_nr{
+            line-height: 2rem;
+            font-size: 1.2rem;
+            color:#666;
+            width:100%;
+            /*height:100%;*/
+            overflow-y:visible;
+            resize:none;
+            box-sizing:border-box;
+            outline:none;
+        }
+        .qr_box{
+            display:flex;
+            display:-webkit-box;
+            display:-webkit-flex;
+            justify-content:center;
+        }
+        .qr_btn{
+            width: 246px;
+            height: 44px;
+            border-radius: 22px;
+            font-size: 1.4rem;
+            color:#1f1f1f;
+            background-image: -webkit-linear-gradient( 0deg, rgb(255,234,3) 0%, rgb(255,219,3) 100%);
+            background-image: -ms-linear-gradient( 0deg, rgb(255,234,3) 0%, rgb(255,219,3) 100%);
+            background-image: linear-gradient( 0deg, rgb(255,234,3) 0%, rgb(255,219,3) 100%);
+            text-align:center;
+            line-height:44px;
+            margin-top: 55px;
+            box-sizing:border-box;
+            display: inline-block;
+            outline:none;
+        }
+        .bq_box{
+            position:relative;
+            background-color:#fff;
+            padding:0 12px;
+            box-sizing:border-box;
+        }
+        .zishu{
+            line-height:4rem;
+            position: absolute;
+            top: 0;
+            right:12px;
+            color:#b3b3b3;
+            font-size: 1.2rem;
+        }
+        .biaoqing{
+            width:20px;
+            height:40px;
+            background:url(http://img.51fth.com/m/images/img_wyl/face.png) no-repeat center center;
+            background-size:20px 20px;
+        }
+        #facebox{
+            width:100%;
+            background:#fff;
+            top:40px!important;
+            left:0!important;
+            z-index:9999;
+        }
+        #facebox ul{
+            width:100%;
+            font-size:0;
+        }
+        #facebox ul li{
+            display: inline-block;
+            padding:2px;
+        }
+/**/
+      #fwb_sx{
+        width: 100%;
+        box-sizing: border-box;
+        outline: none;
+        border: 0; 
+        max-height: 140px;
+        color: #999;
+      }
+        .faces_path{
+            width: 100%;
+            box-sizing:border-box;
+            height: 150px;
+            display: none;
+            padding:0 12px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <ul class="huifu_box">
+        <li class="text_box">
+            <div class="tanpan_nr" contenteditable="true" id="fwb_sx" data-js="0" onkeydown="hide_sx()" oninput="js(200,'.sz','data-js')" onclick="hide_sx()">你想说些什么<i style="display: none;"></i></div>
+        </li>
+        <li class="bq_box">
+            <p class="zishu"><span class="sz">0</span>/200</p>
+            <a class="biaoqing face_img" href="javascript:show();"></a>
+        </li>
+    </ul>
+    <div class="qr_box">
+        <div class="faces_path">
+          <!-- Swiper -->
+          <div class="swiper-container swiper-container_sx">
+            <div class="swiper-wrapper">
+            </div>
+          </div>
+          <!-- 如果需要分页器 -->
+          <div class="swiper-pagination swiper-pagination_sx"></div>
+        </div>
+        <button class="qr_btn">立即评论</button>
+    </div>
+    
+</body>
+<script type="text/javascript">
+// $('.qr_btn').color({size: "1.4rem"})
+var kai=0;
+var flag=true;
+document.getElementById("fwb_sx").focus();
+var placeholder_div='你想说些什么<i style="display: none;"></i>';
+
+function placeholder_sx(){
+    if($('#fwb_sx').html()==placeholder_div){
+        $('#fwb_sx').html(" ")
+        $("#fwb_sx").css('color','#000');
+    }
+}
+// 点击表情 控制显示隐藏
+function hide_sx(){
+    placeholder_sx()
+    $(".faces_path").hide();
+    $('.qr_btn').show();
+    flag = true;
+}
+function show() {
+  if (flag) {
+    document.activeElement.blur();
+    $(".faces_path").animate({
+      "opacity": "1"
+    }, 350, function() {
+      $(this).show()
+      $('.qr_btn').hide()
+    })
+    flag = false;
+  } else {
+    $(".faces_path").hide();
+    $('.qr_btn').show();
+    flag = true;
+  }
+}
+
+//初始化 
+face_jiazai();
+//发送
+// function fasong_sx(zid) {
+//     var type=<{$type}>;
+//     var txt=document.getElementById("fwb_sx").innerHTML;
+//     placeholder_sx()
+//     var txt1;
+//     txt=inner_format(txt)
+//     txt1 = txt.replace(/[\r\n]/g,"").replace(/\s/g,"");
+//     if(txt.length==0||txt1.length==0){
+//       alert('内容不能为空');
+//     }else{
+//       $.ajax({
+//         url:"http://m.51fth.com/essay_details/review_essay.html",
+//         type:"post",
+//         data:{"nr":txt,"zid":zid,"type":type},
+//         dataType:"json",
+//         success:function(back){
+//             if(back.code==200){
+//                 if(type!=5){
+//                     window.location.href="http://m.51fth.com/essay_details/essay_details_c/zid_"+zid+"/type_<{$type}>.html";
+//                 }else{
+//                     window.location.href="http://m.51fth.com/essay_details/dtts_details_c/zid_"+zid+"/type_<{$type}>.html";
+//                 }
+//             }
+//         },
+//       error:function(){
+//       }
+//       });
+//     }
+// }
+/****************聊天输入框 end*****************/
+function img_sxin(emoji) {
+    placeholder_sx();
+    var data_js = $("#fwb_sx").attr("data-js");
+    if(data_js<1){
+        document.getElementById("fwb_sx").focus();
+        var source = '<img src="' + emoji + '">';
+        var txt=document.getElementById("fwb_sx").innerHTML;
+        //格式化
+        txt=inner_format(txt);
+        txt=txt.replace(/\r\n/g,"a");
+        var l=txt.length;
+        old_txt=txt;
+        $(".sz").html(l);
+        data_js++;
+        $("#fwb_sx").attr("data-js",data_js);
+    }
+    document.getElementById("fwb_sx").focus();
+    var source = '<img src="' + emoji + '">';
+    if(old_txt.length<=193) {
+         _insertimg(source);
+      }  
+    var txt=document.getElementById("fwb_sx").innerHTML;
+    //格式化
+    txt=inner_format(txt);
+    txt=txt.replace(/\r\n/g,"a");
+    var l=txt.length;
+    old_txt=txt;
+
+    $(".sz").html(l);
+    document.getElementById("fwb_sx").blur();
+};
+
+//计数
+var old_txt=0;//j旧文本
+var length_sx=0;//内容长度
+function js(jsLen,jsNum,dataJs){
+  data_js = $("#fwb_sx").attr(dataJs);
+  data_js++;
+  $("#fwb_sx").attr(dataJs,data_js);
+    var txt=document.getElementById("fwb_sx").innerHTML;
+    txt=inner_format(txt);
+    txt=txt.replace(/\r\n/g,"a");
+    if(txt.length>=jsLen) {
+        document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==8){ // 按 backspace
+                 //要做的事情
+            } else{
+              return false;
+            }
+        }; 
+      }else{
+        document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==8){ // 按 backspace
+                 //要做的事情
+            } else{
+              return true;
+            }
+        }; 
+      }
+    length_sx=txt.length;
+    old_txt=txt;
+    if(txt.length==0){
+      length_sx=0
+    }
+    $(jsNum).html(length_sx);
+}
+
+</script>
+</html>

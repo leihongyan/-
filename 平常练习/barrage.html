@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div style="position:relative;width:500px;height:400px;text-align:center;">
+
+    <canvas id="canvas" width="500" height="400" style="position:absolute;top:0;left:0;">
+        您的浏览器不支持canvas标签。
+    </canvas>
+</div>
+</body>
+<script type="text/javascript">
+	var barrageList=[];
+	var textList = ['弹幕', '666', '233333333', 
+        'javascript', 'html', 'css', '前端框架', 'Vue', 'React',
+        'Angular','测试弹幕效果'
+    ];
+	function Barrage(canvas){
+		this.canvas = document.getElementById(canvas);
+        var rect = this.canvas.getBoundingClientRect();
+        this.w = rect.right - rect.left;
+        this.h = rect.bottom - rect.top;
+        this.ctx = this.canvas.getContext('2d');
+        this.ctx.font = '20px Microsoft YaHei';
+        this.barrageList = [];
+	}
+
+	Barrage.prototype.shoot=function(value){
+		var top = this.getTop();
+        var color = this.getColor();
+        // var offset = this.getOffset();
+        var width = Math.ceil(this.ctx.measureText(value).width);
+
+        var barrage = {
+            value: value,
+            top: top,
+            left: this.w*Math.random()+this.w,
+            color: color,
+            // offset: offset,
+            width: width
+        }
+        this.barrageList.push(barrage);
+	}
+	Barrage.prototype.draw=function(){
+		if(this.barrageList.length==0){
+			textList.forEach(function(t){
+				barrage.shoot(t);
+		    })
+        }
+		if (this.barrageList.length>0) {
+            this.ctx.clearRect(0, 0, this.w, this.h);
+            for (var i = 0; i < this.barrageList.length; i++) {
+                var b = this.barrageList[i];
+                if (b.left + b.width <= 0) {
+                    this.barrageList.splice(i, 1);
+                    var top = this.getTop();
+                    b.left=this.w+10;
+                    b.top=top;
+                    this.barrageList.push(b)
+                }
+                b.left -= 2;
+                this.drawText(b);
+            }
+        }
+        requestAnimationFrame(this.draw.bind(this));
+	}
+
+	Barrage.prototype.drawText=function(barrage){
+		this.ctx.fillStyle = barrage.color;
+        this.ctx.fillText(barrage.value, barrage.left, barrage.top);
+	}
+
+	Barrage.prototype.getColor=function(){
+		return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
+	}
+
+	Barrage.prototype.getTop=function(){
+		//canvas绘制文字x,y坐标是按文字左下角计算，预留30px
+        return Math.floor(Math.random() * (this.h - 30)) + 30;
+	}
+
+	var barrage = new Barrage('canvas');
+    barrage.draw();
+
+// 兼容各种浏览器
+    (function() {
+        var lastTime = 0;
+        var vendors = ['webkit', 'moz'];
+        for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+            window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+            window.cancelAnimationFrame =
+              window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+        }
+
+        if (!window.requestAnimationFrame)
+            window.requestAnimationFrame = function(callback, element) {
+                var currTime = new Date().getTime();
+                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                  timeToCall);
+                lastTime = currTime + timeToCall;
+                return id;
+            };
+
+        if (!window.cancelAnimationFrame)
+            window.cancelAnimationFrame = function(id) {
+                clearTimeout(id);
+            };
+    }());
+
+
+</script>
+</html>

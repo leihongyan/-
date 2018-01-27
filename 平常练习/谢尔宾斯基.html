@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	canvas{
+		margin:100px auto;
+		display: block;
+	}
+</style>
+<body>
+	<canvas width='600' height="600" id='canvas'></canvas>	
+</body>
+<script type="text/javascript">
+	var r=400;var mm=Math.sqrt(3)/3
+	
+	
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+	draw_basic()
+	
+	function draw_basic(){
+		// 画基本的图形
+		if (canvas.getContext){
+		    ctx.beginPath();
+		    ctx.moveTo(0.5*r,0);
+		    ctx.lineTo(r ,0.5*r*Math.sqrt(3));
+		    ctx.lineTo(0 ,0.5*r*Math.sqrt(3));
+		    ctx.fill();
+	
+		    draw(0.5*r,mm*r,r/2)
+		}
+	}
+	
+	function draw(x,y,r){
+		if(r<2){
+			return;
+		}
+
+	    ctx.beginPath();
+	    ctx.moveTo(x-r*0.5,y-r*0.5*mm);
+	    ctx.lineTo(x+r*0.5,y-r*0.5*mm);
+	    ctx.lineTo(x ,y+r*mm);
+	    ctx.fillStyle = "#fff";
+	    ctx.fill();
+
+	    setTimeout(function(){
+	    	draw(x,y-r*mm,r/2)
+	    	draw(x-r/2,y+r/2*mm,r/2)
+	    	draw(x+r/2,y+r/2*mm,r/2)
+	    },1000)
+    
+	}
+</script>
+</html>

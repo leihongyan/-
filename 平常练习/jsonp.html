@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script type="text/javascript">
+	function handleResponse(response){
+		console.log("You are at IP address " + response.ip + ",which is in " + response.city + "," + response.region_name)
+	}
+	var script = document.createElement("script");
+	script.src='http://freegeoip.net/json/?callback=handleResponse';
+	document.body.insertBefore(script,document.body.firstChild)
+</script>
+</html>

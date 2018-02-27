@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	.num{
+		width: 200px;
+		height: 50px;
+		border: 1px solid #ccc;
+/*		display: table-cell;
+		vertical-align: middle;*/
+		position:relative;
+	}
+	.aa{
+		width: 20px;
+		height: 20px;
+		border:1px solid #ccc;
+		/*margin:0 auto;*/
+		position:absolute;
+		left:50%;
+		top:50%;
+		transform: translate(-50%,-50%);
+	}
+</style>
+<body>
+	<div  class="num"><div class="aa"></div></div>
+</body>
+<script type="text/javascript">
+	var flag=true;
+	var val=document.querySelector(".num").innerHTML;
+	var num1=val.split(" ")[0];
+	var num2=val.split(" ")[1];
+	
+	var arr1=num1.split("");
+	var arr2=arr1.splice(0).reverse();
+	console.log(arr2)
+	for(var i=0;i<arr1.length;i++){
+		if(arr1[i]!=arr2[i]){
+			flag=false;
+		}else{
+			flag=true;
+		}
+	}
+	console.log(flag)
+	// function outer(){
+	// 	inner()
+	// 	console.log(outer.caller)
+	// }
+	// function inner(){
+	// 	console.log(inner.caller)
+	// 	alert(arguments.callee.caller)
+	// }
+	// outer();
+
+
+	// for(var i=0;i<5;i++){
+	// 	(function(j){
+	// 		setTimeout(function(){
+	// 			console.log(new Date,j)
+	// 		})
+	// 	})(i)
+	// }
+	// console.log(new Date,i)
+
+	// var output=function(i){
+	// 	setTimeout(function(){
+	// 		console.log(new Date,i)
+	// 	})
+	// }
+	// for(var i=0;i<5;i++){
+	// 	output(i)
+	// }
+	// console.log(new Date,i)
+
+	// function timeout(ms){
+	// 	return new Promise((resolve,reject)=>{
+	// 		setTimeout(resolve,ms,"done")
+	// 	})
+	// }
+	// timeout(1000).then((value)=>{
+	// 	console.log(value)
+	// })
+
+// let ul = document.querySelector(`[data-uid="ul"]`),
+//     docfrag = document.createDocumentFragment();
+
+// const browserList = [
+//     "Internet Explorer", 
+//     "Mozilla Firefox", 
+//     "Safari", 
+//     "Chrome", 
+//     "Opera"
+// ];
+
+// browserList.forEach((e) => {
+//     let li = document.createElement("li");
+//     li.textContent = e;
+//     docfrag.appendChild(li);
+// });
+
+// ul.appendChild(docfrag);
+
+
+
+// var data = [];
+// for(var k = 0; k < 3; k++){
+//         data[k] = function(){
+//             console.log(k);
+//         };
+// }
+// data[0]();
+// data[1]();
+// data[2]()
+
+// var arrMsg=["aa","ss",'呃呃呃'];
+// var sear_jieguo=document.querySelector(".word");
+// var nr=sear_jieguo.innerHTML;
+// function replace_em(str,x){
+//     str = str.replace(new RegExp(x,'ig'),'<b style="color:red">'+x+'</b>');
+//     return str;
+// }
+// for(var i=0;i<arrMsg.length;i++){
+//     nr=replace_em(nr,arrMsg[i])
+// }
+// sear_jieguo.innerHTML=nr;
+
+// function fun(n,o){
+//     console.log(o)
+//     return{
+//         fun:function(m){
+//         	console.log(m,n)
+//             return fun(m,n);
+//         }
+//     };
+//     }
+// var a = fun(0); a.fun(1); a.fun(2); a.fun(3);
+// var b = fun(0).fun(1).fun(2).fun(3);
+// var c = fun(0).fun(1); c.fun(2); c.fun(3);
+
+</script>
+</html>
